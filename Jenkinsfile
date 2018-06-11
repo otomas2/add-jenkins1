@@ -20,8 +20,10 @@ pipeline {
 		}
 		stage('Push Registry') {
 			steps {
-			 sh 'docker tag app:latest otomas2/app:stable'
-			 sh 'docker push otomas2/app:stable'
+				withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'user')]) {
+			 	 sh 'docker tag app:latest otomas2/app:stable'
+			 	 sh 'docker push otomas2/app:stable'
+				}
 			}
 		}
 	}
